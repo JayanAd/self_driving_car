@@ -21,3 +21,6 @@ Real-time self-driving car simulation system with end-to-end learning for steeri
 - opencv-python
 - numpy
 - ultralytics
+
+<img width="1483" height="699" alt="Screenshot 2025-10-08 142822" src="https://github.com/user-attachments/assets/cb082298-b477-449a-974e-ea52d2dbf7fd" />
+
