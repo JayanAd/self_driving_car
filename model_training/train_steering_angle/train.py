@@ -2,7 +2,7 @@ import os
 import tensorflow.compat.v1 as tf
 from tensorflow.core.protobuf import saver_pb2
 import driving_data
-import model
+import models.v1_model as v1_model
 
 tf.disable_v2_behavior()
 
@@ -47,7 +47,7 @@ class Trainer:
     def _train_one_epoch(self, epoch, batch_size):
         for i in range(int(driving_data.num_images/ batch_size)):
             xs, ys = driving_data.LoadTrainBatch(batch_size)
-            self.train_step.run(feed_dict={model.X: xs, model.y_: ys, model.keep_prob: 0.8})
+            self.train_step.run(feed_dict={v1_model.X: xs, v1_model.y_: ys, v1_model.keep_prob: 0.8})
             
             if i%10 ==0:
                 self._log_progress(epoch,i,batch_size)
@@ -56,10 +56,10 @@ class Trainer:
                 self._save_checkpoint()
     def _log_progress(self, epoch, step, batch_size):
         xs, ys = driving_data.LoadValBatch(batch_size)
-        loss_value = self.loss.eval(feed_dict={model.X: xs, model.y_: ys, model.keep_prob: 1.0})
+        loss_value = self.loss.eval(feed_dict={v1_model.X: xs, v1_model.y_: ys, v1_model.keep_prob: 1.0})
         print(f"Epoch {epoch}, Step {step}, Validation Loss: {loss_value}")
         
-        summary = self.merged_summary_op.eval(feed_dict={model.X: xs, model.y_: ys, model.keep_prob: 1.0})
+        summary = self.merged_summary_op.eval(feed_dict={v1_model.X: xs, v1_model.y_: ys, v1_model.keep_prob: 1.0})
         self.logger.log_summary(summary, epoch * (driving_data.num_images / batch_size) + step)
         
     def _save_checkpoint(self):
@@ -80,7 +80,7 @@ if __name__ == "__main__":
     BATCH_SIZE = 100
     
     logger = DataLogger(LOGS_PATH)
-    trainer = Trainer(model, LOGDIR, logger)
+    trainer = Trainer(v1_model, LOGDIR, logger)
     
     try:
         trainer.train(EPOCHS, BATCH_SIZE)

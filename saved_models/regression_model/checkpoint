@@ -1,0 +1,2 @@
+model_checkpoint_path: "/content/reg/model_training/train_steering_angle/save/model.ckpt"
+all_model_checkpoint_paths: "/content/reg/model_training/train_steering_angle/save/model.ckpt"
